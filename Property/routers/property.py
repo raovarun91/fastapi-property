@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, status, HTTPException, Response
 from typing import List
-from .. import schemas, database, models
+from .. import schemas, database, models, oauth2
 from sqlalchemy.orm import Session
 
 router = APIRouter(
@@ -21,7 +21,7 @@ def create_property(prop:schemas.Prop, db: Session = Depends(get_db)):
     return new_prop
 
 @router.get('/', response_model=List[schemas.ShowProp])
-def all(db: Session = Depends(get_db)):
+def all(db: Session = Depends(get_db), get_current_user: schemas.User = Depends(oauth2.get_current_user)):
     props = db.query(models.Prop).all()
     return props
 

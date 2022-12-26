@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Union
 
 class PropBase(BaseModel):
     name:str
@@ -40,3 +40,16 @@ class ShowCompleteProp(Prop):
     class Config():
         orm_mode = True
 
+class Login(BaseModel):
+    username : str
+    password : str
+
+
+#JWT Token related information
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    email: Union[str, None] = None
